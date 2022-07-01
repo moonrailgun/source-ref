@@ -1,10 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { start as startSR } from 'source-ref-runtime';
 
-import('source-ref-runtime').then((module) => {
-  console.log('[source-ref-runtime] loaded!');
-  module.start();
-});
+startSR();
 
 const App = React.memo(() => {
   return <div>Alt + Click Here</div>;
