@@ -39,6 +39,9 @@ export function injectTraceIdJSX(jsx: string, options: Options) {
       }
 
       const name = path.node.name;
+      if (isJSXIdentifier(name) && name.name === 'template') {
+        return;
+      }
       if (isJSXIdentifier(name) && name.name === 'Fragment') {
         return;
       }
