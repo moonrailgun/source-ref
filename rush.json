@@ -396,6 +396,30 @@
    * 3. It's useful to have a centralized inventory of all projects and their important metadata.
    */
   "projects": [
+    {
+      "packageName": "source-ref-core",
+      "projectFolder": "packages/core"
+    },
+    {
+      "packageName": "source-ref-core-vue",
+      "projectFolder": "packages/core-vue"
+    },
+    {
+      "packageName": "rollup-plugin-source-ref",
+      "projectFolder": "packages/rollup-plugin-source-ref"
+    },
+    {
+      "packageName": "rollup-plugin-source-ref-vue",
+      "projectFolder": "packages/rollup-plugin-source-ref-vue"
+    },
+    {
+      "packageName": "source-ref-loader",
+      "projectFolder": "packages/source-ref-loader"
+    },
+    {
+      "packageName": "source-ref-runtime",
+      "projectFolder": "packages/source-ref-runtime"
+    },
     // {
     //   /**
     //    * The NPM package name of the project (must match package.json)
