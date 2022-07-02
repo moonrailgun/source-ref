@@ -1,5 +1,5 @@
 {
-  "name": "source-ref-core-vue",
+  "name": "rollup-plugin-source-ref-vue",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -8,8 +8,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepare": "tsc",
-    "test": "ts-node test/index.ts"
+    "prepare": "tsc"
   },
   "keywords": [
     "sourcecode",
@@ -20,10 +19,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^15.12.5",
-    "ts-node": "^10.0.0",
+    "rollup": "^2.75.0",
     "typescript": "^4.5.2"
   },
   "dependencies": {
-    "@vue/compiler-dom": "^3.2.37"
+    "source-ref-core-vue": "workspace:^1.0.0"
   }
 }

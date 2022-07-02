@@ -2,19 +2,18 @@
  * Fork from https://github.com/olov/ast-traverse.
  */
 
-import { DefaultTreeAdapterMap, defaultTreeAdapter } from 'parse5';
-type Element = DefaultTreeAdapterMap['element'];
-type Template = DefaultTreeAdapterMap['template'];
+import { Node } from '@vue/compiler-dom';
+import { isElementNode, isRootNode } from './utils';
 
 interface Options {
-  pre?: (node: Element, parent: Element) => boolean;
-  post?: (node: Element, parent: Element) => void;
-  skipProperty?: (node: Element) => boolean;
+  pre?: (node: Node, parent: Node) => boolean;
+  post?: (node: Node, parent: Node) => void;
+  skipProperty?: (node: Node) => boolean;
 }
-export function traverse(root: Element, options: Options = {}) {
+export function traverse(root: Node, options: Options = {}) {
   const { pre, post, skipProperty } = options;
 
-  const visit = (node: Element, parent: Element) => {
+  const visit = (node: Node, parent: Node) => {
     let res: boolean;
 
     if (!node) {
@@ -25,26 +24,24 @@ export function traverse(root: Element, options: Options = {}) {
       res = pre(node, parent);
     }
 
-    let { childNodes } = node;
+    if (isElementNode(node) || isRootNode(node)) {
+      let { children } = node;
 
-    if (node.tagName === 'template') {
-      ({ childNodes } = (node as Template).content);
-    }
+      if (res !== false && Array.isArray(children) && children.length >= 0) {
+        children.forEach((child) => {
+          if (skipProperty && skipProperty(node)) {
+            return;
+          }
 
-    if (res !== false && Array.isArray(childNodes) && childNodes.length >= 0) {
-      childNodes.forEach((child) => {
-        if (skipProperty && skipProperty(node)) {
-          return;
-        }
+          if (isElementNode(child)) {
+            visit(child, node);
+          }
+        });
+      }
 
-        if (defaultTreeAdapter.isElementNode(child)) {
-          visit(child, node);
-        }
-      });
-    }
-
-    if (post) {
-      post(node, parent);
+      if (post) {
+        post(node, parent);
+      }
     }
   };
 

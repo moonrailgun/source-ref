@@ -1,4 +1,7 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+import { start } from 'source-ref-runtime';
 
-createApp(App).mount('#app')
+start();
+
+createApp(App).mount('#app');
