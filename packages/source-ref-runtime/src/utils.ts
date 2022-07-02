@@ -1,11 +1,11 @@
-const sourceMap = {};
-const sourceMapReverse = {};
+const sourceMap: Record<string, string> = {};
+const sourceMapReverse: Record<string, string> = {};
 let cursor = 0;
 
 /**
- * Transform full source ref to sid
+ * Transform full source ref to sr
  */
-export function sourceToId(node: Element) {
+export function compressToSr(node: Element) {
   if (!(node instanceof HTMLElement)) {
     return;
   }
@@ -18,18 +18,29 @@ export function sourceToId(node: Element) {
 
   if (!sourceMap[source]) {
     cursor++;
-    sourceMap[source] = cursor;
-    sourceMapReverse[cursor] = source;
+    const hash = cursor.toString(36);
+    sourceMap[source] = hash;
+    sourceMapReverse[hash] = source;
   }
   const id = sourceMap[source];
   node.removeAttribute('data-source');
-  node.setAttribute('data-sid', `${id}`);
+  node.setAttribute('data-sr', `${id}`);
 }
 
 /**
- * Transform sid to file URI
+ * Transform sr to file URI
  */
-export function sidToURI(sid: string) {
-  const path = 'vscode://file/' + sourceMapReverse[sid];
-  return path;
+export function srToURI(sr: string) {
+  const source = sourceMapReverse[sr];
+
+  if (!source) {
+    return '(unknown)';
+  }
+
+  if (source.includes('://')) {
+    return source;
+  }
+
+  // Default use vscode schema
+  return 'vscode://file/' + sourceMapReverse[sr];
 }

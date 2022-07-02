@@ -1,5 +1,5 @@
-import { Selector } from './Selector';
-import { sourceToId } from './utils';
+import { Inspector } from './Inspector';
+import { compressToSr } from './utils';
 
 let timer = null;
 
@@ -13,26 +13,26 @@ export function start() {
       if (e.altKey) {
         e.preventDefault();
         e.stopPropagation();
-        const selector = new Selector(e.target);
-        selector.renderHTML();
+
+        const inspector = new Inspector(e.target);
+        inspector.renderHTML();
       }
     },
     true
   );
 
-  const mo = new MutationObserver(() => {
+  const observer = new MutationObserver(() => {
     if (timer) {
       clearTimeout(timer);
     }
     timer = window.setTimeout(() => {
-      // recal sid
       document
         .querySelectorAll('[data-source]')
-        .forEach((node) => sourceToId(node));
+        .forEach((node) => compressToSr(node));
     }, 500);
   });
 
-  mo.observe(document.body, {
+  observer.observe(document.body, {
     attributes: true,
     childList: true,
     subtree: true,

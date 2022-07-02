@@ -9,7 +9,7 @@ import {
   stringLiteral,
 } from '@babel/types';
 
-const TRACE_ID = 'data-source';
+const ATTR_ID = 'data-source';
 
 interface Options {
   filepath: string;
@@ -39,9 +39,6 @@ export function injectTraceIdJSX(jsx: string, options: Options) {
       }
 
       const name = path.node.name;
-      if (isJSXIdentifier(name) && name.name === 'template') {
-        return;
-      }
       if (isJSXIdentifier(name) && name.name === 'Fragment') {
         return;
       }
@@ -53,17 +50,18 @@ export function injectTraceIdJSX(jsx: string, options: Options) {
       const col = location.start.column;
 
       const attrs = path.node.attributes;
-      for (let i = 0; i < attrs.length; i++) {
-        const attr = attrs[i];
-        if (attr.type === 'JSXAttribute' && attr.name.name === TRACE_ID) {
-          // existed
-          return;
-        }
+
+      if (
+        attrs.some(
+          (attr) => attr.type === 'JSXAttribute' && attr.name.name === ATTR_ID
+        )
+      ) {
+        return;
       }
 
       const traceId = `${filepath}:${line}:${col}`;
 
-      attrs.push(jsxAttribute(jsxIdentifier(TRACE_ID), stringLiteral(traceId)));
+      attrs.push(jsxAttribute(jsxIdentifier(ATTR_ID), stringLiteral(traceId)));
     },
   });
 

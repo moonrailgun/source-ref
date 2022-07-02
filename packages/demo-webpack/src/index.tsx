@@ -4,8 +4,35 @@ import { start as startSR } from 'source-ref-runtime';
 
 startSR();
 
+const paddingStyle: React.CSSProperties = {
+  padding: 8,
+  backgroundColor: 'rgba(0, 0, 0, 0.05)',
+};
+
 const App = React.memo(() => {
-  return <div>Alt + Click Here</div>;
+  return (
+    <div>
+      <div>Alt + Click Here</div>
+
+      {Array.from({ length: 50 }).map(() => (
+        <div>Loop</div>
+      ))}
+
+      <div style={paddingStyle}>
+        <div style={paddingStyle}>
+          <div style={paddingStyle}>
+            <div style={paddingStyle}>
+              <div style={paddingStyle}>
+                <div style={paddingStyle}>
+                  <div>Nested</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 });
 
 const container = document.getElementById('app');
