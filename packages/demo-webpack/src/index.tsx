@@ -12,10 +12,10 @@ const paddingStyle: React.CSSProperties = {
 const App = React.memo(() => {
   return (
     <div>
-      <div>Alt + Click Here</div>
+      <div>Alt + Mouse Left Click Anything</div>
 
-      {Array.from({ length: 50 }).map(() => (
-        <div>Loop</div>
+      {Array.from({ length: 50 }).map((_, i) => (
+        <div key={i}>Loop</div>
       ))}
 
       <div style={paddingStyle}>

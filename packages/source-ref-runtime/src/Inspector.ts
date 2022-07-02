@@ -4,28 +4,32 @@ const selectedClassName = '__source-ref-selected';
 const selectedMaskClassName = '__source-ref-mask';
 
 export class Inspector {
-  srs = [];
   containerId = '__source-ref-panel';
   focusBlock = null;
+  path: { sr: string; node: Element }[] = [];
 
-  constructor(node: EventTarget) {
-    this.srs = this.getParentSrs(node);
+  constructor(target: EventTarget) {
+    this.initNodePath(target);
   }
 
-  getParentSrs = (node: EventTarget) => {
-    const srs = [];
-    let cur = node;
+  initNodePath = (target: EventTarget) => {
+    const path = [];
+    let cur = target;
     while (cur !== document.body) {
       if (!(cur instanceof HTMLElement)) {
         break;
       }
 
       if (cur.dataset.sr) {
-        srs.push(cur.dataset.sr);
+        path.push({
+          sr: cur.dataset.sr,
+          node: cur,
+        });
       }
       cur = cur.parentElement;
     }
-    return srs;
+
+    this.path = path;
   };
 
   setFocusBlock = (target: Element) => {
@@ -80,8 +84,9 @@ export class Inspector {
       }
 
       if (node.dataset.sr) {
-        const target = document.querySelector(`[data-sr="${node.dataset.sr}"]`);
-        if (target) {
+        const finded = this.path.find((p) => p.sr === node.dataset.sr);
+        if (finded) {
+          const target = finded.node;
           target.classList.add(selectedClassName);
           this.setFocusBlock(target);
         }
@@ -103,11 +108,6 @@ export class Inspector {
         }
       }
     });
-
-    const close = () => {
-      this.setFocusBlock(null);
-      document.body.removeChild(div);
-    };
 
     // click event
     div.addEventListener('click', (e) => {
@@ -131,7 +131,7 @@ export class Inspector {
     const escKeyHandler = (e) => {
       if (e.key === 'Escape') {
         e.stopPropagation();
-        close();
+        this.close();
         document.removeEventListener('keydown', escKeyHandler);
       }
     };
@@ -166,8 +166,8 @@ export class Inspector {
           " data-command="close" title="Close(esc)">×</div>
         </div>
 
-        ${this.srs
-          .map((sr) => {
+        ${this.path
+          .map(({ sr }) => {
             const uri = srToURI(sr);
             return `<a href="${uri}" style="
               display: block;
