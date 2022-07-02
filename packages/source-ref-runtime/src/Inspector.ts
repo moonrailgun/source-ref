@@ -2,13 +2,14 @@ import { srToURI } from './utils';
 
 const selectedClassName = '__source-ref-selected';
 const selectedMaskClassName = '__source-ref-mask';
+const closeClassName = '__source-ref-close';
 
 export class Inspector {
   containerId = '__source-ref-panel';
   focusBlock = null;
   path: { sr: string; node: Element }[] = [];
 
-  constructor(target: EventTarget) {
+  constructor(public target: EventTarget) {
     this.initNodePath(target);
   }
 
@@ -115,15 +116,11 @@ export class Inspector {
       if (!(node instanceof HTMLElement)) {
         return;
       }
-      const command = node.dataset.command;
-      switch (command) {
-        case 'close': {
-          e.stopPropagation();
-          close();
-          return;
-        }
-        default:
-          console.warn('Unknown command', command);
+
+      // Close btn
+      if (node.classList.contains(closeClassName)) {
+        e.stopPropagation();
+        this.close();
       }
     });
 
@@ -140,16 +137,28 @@ export class Inspector {
     return div;
   };
 
+  /**
+   * Check if the target is in the bottom half of the screen
+   */
+  checkTargetIsInBottom(): boolean {
+    if (this.target instanceof HTMLElement) {
+      return this.target.getBoundingClientRect().y > window.innerHeight / 2;
+    }
+
+    return false;
+  }
+
   renderHTML = () => {
+    const isBottomHalf = this.checkTargetIsInBottom();
     const html = `
       <div style="
         position: fixed;
         background: white;
-        bottom: 0;
+        ${isBottomHalf ? 'top' : 'bottom'}: 0;
         left: 0;
         z-index: 9999;
         opacity: 0.6;
-        border-radius: 0 10px 0 0;
+        border-radius: ${isBottomHalf ? '0 0 10px 0' : '0 10px 0 0'};
         box-shadow: 0px 0 4px 0px;
         max-width: 90vw;
         max-height: 80vh;
@@ -163,7 +172,7 @@ export class Inspector {
             text-align: right;
             font-size: 24px;
             line-height: 24px;
-          " data-command="close" title="Close(esc)">×</div>
+          " class="${closeClassName}" title="Close(esc)">×</div>
         </div>
 
         ${this.path
