@@ -13,14 +13,13 @@ const ATTR_ID = 'data-source';
 
 interface Options {
   filepath: string;
-  startRow?: number;
 }
 
 /**
  * inject Trace Id in jsx code
  */
 export function injectTraceIdJSX(jsx: string, options: Options) {
-  const { startRow = 0, filepath } = options;
+  const { filepath } = options;
 
   const ast = parse(jsx, {
     sourceType: 'module',
@@ -46,7 +45,7 @@ export function injectTraceIdJSX(jsx: string, options: Options) {
         return;
       }
 
-      const line = location.start.line + startRow;
+      const line = location.start.line;
       const col = location.start.column;
 
       const attrs = path.node.attributes;
