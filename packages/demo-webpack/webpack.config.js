@@ -41,13 +41,20 @@ module.exports = {
                 type: 'github',
                 url: 'https://github.com/moonrailgun/source-ref',
                 branch: 'master',
-                cwd: path.resolve(__dirname, '../../')
+                cwd: path.resolve(__dirname, '../../'),
               },
             },
           },
         ],
       },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.css'],
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -1,36 +1,37 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { start as startSR } from 'source-ref-runtime';
+import { Webpack } from './integrate/Webpack';
+import { Rollup } from './integrate/Rollup';
+import { ViteVue } from './integrate/ViteVue';
+import './index.css';
+import { Runtime } from './Runtime';
 
 startSR();
-
-const paddingStyle: React.CSSProperties = {
-  padding: 8,
-  backgroundColor: 'rgba(0, 0, 0, 0.05)',
-};
 
 const App = React.memo(() => {
   return (
     <div>
-      <div>Alt + Mouse Left Click Anything</div>
+      <h2>Source Ref</h2>
 
-      {Array.from({ length: 50 }).map((_, i) => (
-        <div key={i}>Loop</div>
-      ))}
+      <p>This is amazing tool which can help you find your source quickly</p>
 
-      <div style={paddingStyle}>
-        <div style={paddingStyle}>
-          <div style={paddingStyle}>
-            <div style={paddingStyle}>
-              <div style={paddingStyle}>
-                <div style={paddingStyle}>
-                  <div>Nested</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p>
+        First try with <code>Alt + Mouse Left Click</code> Anything DOM element
+      </p>
+
+      <p>
+        And its can fast integrate with <code>React</code>、 <code>Vue</code> by{' '}
+        <code>webpack</code> or <code>rollup</code> or <code>vite</code>{' '}
+      </p>
+
+      <Runtime />
+
+      <Webpack />
+
+      <Rollup />
+
+      <ViteVue />
     </div>
   );
 });

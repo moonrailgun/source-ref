@@ -1,0 +1,17 @@
+code {
+  background-color: rgba(0,0,0,0.05);
+  padding: 4px 6px;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: rgba(0,0,0,0.05);
+  padding: 10px;
+  border-radius: 3px;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}

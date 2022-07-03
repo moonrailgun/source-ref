@@ -36,7 +36,7 @@ export function start() {
       document
         .querySelectorAll('[data-source]')
         .forEach((node) => compressToSr(node));
-    }, 500);
+    }, 400);
   });
 
   observer.observe(document.body, {
