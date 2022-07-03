@@ -1,36 +1,59 @@
-// import { parse, serialize, DefaultTreeAdapterMap } from 'parse5';
-// import { traverse } from './traverse';
-// type Element = DefaultTreeAdapterMap['element'];
-
 import { AttributeNode, NodeTypes } from '@vue/compiler-dom';
 import { parseSfc } from './parse';
 import { traverse } from './traverse';
 import { generate } from './generate';
 import { isElementNode } from './utils';
+import pathUtils from 'path';
 
 const ATTR_ID = 'data-source';
 
-interface Options {
+export interface InjectTraceIdVueOptions {
   filepath: string;
-  startRow?: number;
+  opener:
+    | {
+        type: 'vscode';
+      }
+    | {
+        type: 'github';
+        url: string;
+        branch?: string;
+        cwd?: string;
+      };
 }
 
 /**
  * inject Trace Id in jsx code
  */
-export function injectTraceIdVue(vue: string, options: Options) {
-  const filepath = options.filepath;
+export function injectTraceIdVue(
+  vue: string,
+  options: InjectTraceIdVueOptions
+) {
+  const { filepath, opener } = options;
 
   const ast = parseSfc(vue);
   traverse(ast, {
     pre: (node) => {
       if (isElementNode(node)) {
+        const line = node.loc.start.line;
+        const column = node.loc.start.column;
+        let uri = `${filepath}:${line}:${column}`;
+
+        if (opener.type === 'github') {
+          const relativeFilepath = pathUtils.relative(
+            opener.cwd ?? process.cwd(),
+            filepath
+          );
+          uri = `${opener.url}/blob/${
+            opener.branch ?? 'main'
+          }/${relativeFilepath}#L${line}`;
+        }
+
         node.props.push({
           type: NodeTypes.ATTRIBUTE,
           name: ATTR_ID,
           value: {
             type: NodeTypes.TEXT,
-            content: `${filepath}:${node.loc.start.line}:${node.loc.start.column}`,
+            content: uri,
           },
         } as AttributeNode);
       }
@@ -41,25 +64,4 @@ export function injectTraceIdVue(vue: string, options: Options) {
 
   const code = generate(ast);
   return { code };
-
-  // const ast = parse(vue, {
-  //   sourceCodeLocationInfo: true,
-  // });
-  // const root = (ast.childNodes[0] as Element).childNodes[0] as Element;
-  // const template = root.childNodes.find(
-  //   (node) => node.nodeName === 'template'
-  // ) as Element;
-  // traverse(template, {
-  //   pre: (node) => {
-  //     const loc = node.sourceCodeLocation;
-  //     if (loc) {
-  //       node.attrs.push({
-  //         name: ATTR_ID,
-  //         value: `${filepath}:${loc.startLine}:${loc.startCol}`,
-  //       });
-  //     }
-  //     return true;
-  //   },
-  // });
-  // return { code: serialize(root) };
 }

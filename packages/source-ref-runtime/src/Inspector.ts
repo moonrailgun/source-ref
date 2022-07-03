@@ -178,7 +178,7 @@ export class Inspector {
         ${this.path
           .map(({ sr }) => {
             const uri = srToURI(sr);
-            return `<a href="${uri}" style="
+            return `<a href="${uri}" target="_blank" style="
               display: block;
               margin: 6px 0;
               white-space: nowrap;

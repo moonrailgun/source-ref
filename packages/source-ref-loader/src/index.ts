@@ -1,10 +1,18 @@
 import type { LoaderContext } from 'webpack';
-import { injectTraceIdJSX } from 'source-ref-core';
+import { injectTraceIdJSX, InjectTraceIdJSXOptions } from 'source-ref-core';
 
-async function loader(this: LoaderContext<any>, source: string): Promise<void> {
+interface Options {
+  available?: boolean;
+  opener?: InjectTraceIdJSXOptions['opener'];
+}
+
+async function loader(
+  this: LoaderContext<Options>,
+  source: string
+): Promise<void> {
   const done = this.async();
 
-  const { available } = this.getOptions();
+  const { available = true, opener = { type: 'vscode' } } = this.getOptions();
   if (!available) {
     // skip if not
     done(null, source);
@@ -17,7 +25,7 @@ async function loader(this: LoaderContext<any>, source: string): Promise<void> {
     return;
   }
 
-  const code = injectTraceIdJSX(source, { filepath }).code;
+  const code = injectTraceIdJSX(source, { filepath, opener }).code;
 
   done(null, code);
 }

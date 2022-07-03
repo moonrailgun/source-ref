@@ -1,7 +1,11 @@
 import type { Plugin } from 'rollup';
-import { injectTraceIdJSX } from 'source-ref-core';
+import { injectTraceIdJSX, InjectTraceIdJSXOptions } from 'source-ref-core';
 
-export default function sourceRef(): Plugin {
+interface Options {
+  opener?: InjectTraceIdJSXOptions['opener'];
+}
+
+export default function sourceRef(options?: Options): Plugin {
   return {
     name: 'source-ref',
     transform(code, id) {
@@ -9,6 +13,7 @@ export default function sourceRef(): Plugin {
 
       return injectTraceIdJSX(code, {
         filepath,
+        opener: options?.opener ?? { type: 'vscode' },
       });
     },
   };

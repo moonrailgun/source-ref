@@ -8,18 +8,32 @@ import {
   jsxIdentifier,
   stringLiteral,
 } from '@babel/types';
+import pathUtils from 'path';
 
 const ATTR_ID = 'data-source';
 
-interface Options {
+export interface InjectTraceIdJSXOptions {
   filepath: string;
+  opener:
+    | {
+        type: 'vscode';
+      }
+    | {
+        type: 'github';
+        url: string;
+        branch?: string;
+        cwd?: string;
+      };
 }
 
 /**
  * inject Trace Id in jsx code
  */
-export function injectTraceIdJSX(jsx: string, options: Options) {
-  const { filepath } = options;
+export function injectTraceIdJSX(
+  jsx: string,
+  options: InjectTraceIdJSXOptions
+) {
+  const { filepath, opener } = options;
 
   const ast = parse(jsx, {
     sourceType: 'module',
@@ -58,9 +72,18 @@ export function injectTraceIdJSX(jsx: string, options: Options) {
         return;
       }
 
-      const traceId = `${filepath}:${line}:${col}`;
+      let uri = `${filepath}:${line}:${col}`;
+      if (opener.type === 'github') {
+        const relativeFilepath = pathUtils.relative(
+          opener.cwd ?? process.cwd(),
+          filepath
+        );
+        uri = `${opener.url}/blob/${
+          opener.branch ?? 'main'
+        }/${relativeFilepath}#L${line}`;
+      }
 
-      attrs.push(jsxAttribute(jsxIdentifier(ATTR_ID), stringLiteral(traceId)));
+      attrs.push(jsxAttribute(jsxIdentifier(ATTR_ID), stringLiteral(uri)));
     },
   });
 

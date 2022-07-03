@@ -1,7 +1,11 @@
 import type { Plugin } from 'rollup';
-import { injectTraceIdVue } from 'source-ref-core-vue';
+import { injectTraceIdVue, InjectTraceIdVueOptions } from 'source-ref-core-vue';
 
-export default function sourceRef(): Plugin {
+interface Options {
+  opener?: InjectTraceIdVueOptions['opener'];
+}
+
+export default function sourceRef(options?: Options): Plugin {
   return {
     name: 'source-ref-vue',
     transform(code, id) {
@@ -10,6 +14,7 @@ export default function sourceRef(): Plugin {
       if (filepath.endsWith('.vue')) {
         const output = injectTraceIdVue(code, {
           filepath,
+          opener: options?.opener ?? { type: 'vscode' },
         });
         return output;
       }

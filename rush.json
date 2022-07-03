@@ -421,6 +421,14 @@
       "packageName": "source-ref-runtime",
       "projectFolder": "packages/source-ref-runtime"
     },
+    {
+      "packageName": "demo-webpack",
+      "projectFolder": "packages/demo-webpack"
+    },
+    {
+      "packageName": "demo-vite",
+      "projectFolder": "packages/demo-vite"
+    }
     // {
     //   /**
     //    * The NPM package name of the project (must match package.json)
