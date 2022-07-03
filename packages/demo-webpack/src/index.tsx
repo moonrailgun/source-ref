@@ -4,8 +4,8 @@ import { start as startSR } from 'source-ref-runtime';
 import { Webpack } from './integrate/Webpack';
 import { Rollup } from './integrate/Rollup';
 import { ViteVue } from './integrate/ViteVue';
-import './index.css';
 import { Runtime } from './Runtime';
+import './index.css';
 
 startSR();
 

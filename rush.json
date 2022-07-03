@@ -296,7 +296,7 @@
      * The default branch name. This tells "rush change" which remote branch to compare against.
      * The default value is "main"
      */
-    "defaultBranch": "master",
+    "defaultBranch": "release",
 
     /**
      * The default remote. This tells "rush change" which remote to compare against if the remote URL is
@@ -399,27 +399,32 @@
     {
       "packageName": "source-ref-core",
       "projectFolder": "packages/core",
-      "shouldPublish": true
+      "versionPolicyName": "main"
     },
     {
       "packageName": "source-ref-core-vue",
-      "projectFolder": "packages/core-vue"
+      "projectFolder": "packages/core-vue",
+      "versionPolicyName": "main"
     },
     {
       "packageName": "rollup-plugin-source-ref",
-      "projectFolder": "packages/rollup-plugin-source-ref"
+      "projectFolder": "packages/rollup-plugin-source-ref",
+      "versionPolicyName": "main"
     },
     {
       "packageName": "rollup-plugin-source-ref-vue",
-      "projectFolder": "packages/rollup-plugin-source-ref-vue"
+      "projectFolder": "packages/rollup-plugin-source-ref-vue",
+      "versionPolicyName": "main"
     },
     {
       "packageName": "source-ref-loader",
-      "projectFolder": "packages/source-ref-loader"
+      "projectFolder": "packages/source-ref-loader",
+      "versionPolicyName": "main"
     },
     {
       "packageName": "source-ref-runtime",
-      "projectFolder": "packages/source-ref-runtime"
+      "projectFolder": "packages/source-ref-runtime",
+      "versionPolicyName": "main"
     },
     {
       "packageName": "demo-webpack",
