@@ -17,12 +17,14 @@ const App = React.memo(() => {
       <p>This is amazing tool which can help you find your source quickly</p>
 
       <p>
-        First try with <code>Alt + Mouse Left Click</code> Anything DOM element
+        Fast try with <code>Alt + Mouse Left Click</code> Anything DOM element
+        in this page.
       </p>
 
       <p>
-        And its can fast integrate with <code>React</code>、 <code>Vue</code> by{' '}
-        <code>webpack</code> or <code>rollup</code> or <code>vite</code>{' '}
+        And <code>source-ref</code> can fast integrate with <code>React</code>、{' '}
+        <code>Vue</code> by <code>webpack</code> or <code>rollup</code> or{' '}
+        <code>vite</code>{' '}
       </p>
 
       <Runtime />
