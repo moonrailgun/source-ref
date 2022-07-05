@@ -422,6 +422,11 @@
       "versionPolicyName": "main"
     },
     {
+      "packageName": "source-ref-loader-vue",
+      "projectFolder": "packages/source-ref-loader-vue",
+      "versionPolicyName": "main"
+    },
+    {
       "packageName": "source-ref-runtime",
       "projectFolder": "packages/source-ref-runtime",
       "versionPolicyName": "main"

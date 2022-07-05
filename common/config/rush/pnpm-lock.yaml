@@ -134,6 +134,25 @@ importers:
       webpack: 5.73.0
       webpack-test-utils: 1.1.0_webpack@5.73.0
 
+  ../../packages/source-ref-loader-vue:
+    specifiers:
+      '@types/node': ^15.12.5
+      '@types/webpack': ^5.28.0
+      source-ref-core-vue: workspace:^1.0.0
+      ts-node: ^10.0.0
+      typescript: ^4.5.2
+      webpack: ^5.72.0
+      webpack-test-utils: ^1.1.0
+    dependencies:
+      source-ref-core-vue: link:../core-vue
+    devDependencies:
+      '@types/node': 15.14.9
+      '@types/webpack': 5.28.0
+      ts-node: 10.8.1_bqee57coj3oib6dw4m24wknwqe
+      typescript: 4.7.4
+      webpack: 5.73.0
+      webpack-test-utils: 1.1.0_webpack@5.73.0
+
   ../../packages/source-ref-runtime:
     specifiers:
       typescript: ^4.5.2
