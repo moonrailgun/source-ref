@@ -433,7 +433,7 @@
     {
       "packageName": "demo-vite",
       "projectFolder": "packages/demo-vite"
-    }
+    },
     // {
     //   /**
     //    * The NPM package name of the project (must match package.json)
