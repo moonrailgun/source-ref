@@ -6,6 +6,8 @@ import { Rollup } from './integrate/Rollup';
 import { ViteVue } from './integrate/ViteVue';
 import { Runtime } from './Runtime';
 import './index.css';
+import { Webpack4Vue } from './integrate/Webpack4Vue';
+import { Options } from './Options';
 
 startSR();
 
@@ -29,11 +31,23 @@ const App = React.memo(() => {
 
       <Runtime />
 
-      <Webpack />
+      <div>
+        <h1>Integrate into your bundler</h1>
 
-      <Rollup />
+        <p>Select your framework below:</p>
 
-      <ViteVue />
+        <div style={{ paddingLeft: 20, borderLeft: '4px solid #ccc' }}>
+          <Webpack />
+
+          <Rollup />
+
+          <ViteVue />
+
+          <Webpack4Vue />
+        </div>
+
+        <Options />
+      </div>
     </div>
   );
 });
