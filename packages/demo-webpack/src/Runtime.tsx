@@ -17,6 +17,7 @@ export const Runtime: React.FC = React.memo(() => {
       <ul>
         <li>vscode</li>
         <li>github</li>
+        <li>jetbrains</li>
       </ul>
 
       <pre>

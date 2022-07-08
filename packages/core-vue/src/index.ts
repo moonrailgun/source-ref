@@ -18,6 +18,10 @@ export interface InjectTraceIdVueOptions {
         url: string;
         branch?: string;
         cwd?: string;
+      }
+    | {
+        type: 'jetbrains';
+        port?: number;
       };
 }
 
@@ -46,6 +50,8 @@ export function injectTraceIdVue(
           uri = `${opener.url}/blob/${
             opener.branch ?? 'main'
           }/${relativeFilepath}#L${line}`;
+        } else if (opener.type === 'jetbrains') {
+          uri = `http://localhost:${opener.port ?? 63342}/api/file/${uri}`;
         }
 
         node.props.push({

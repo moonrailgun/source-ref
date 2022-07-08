@@ -23,6 +23,10 @@ export interface InjectTraceIdJSXOptions {
         url: string;
         branch?: string;
         cwd?: string;
+      }
+    | {
+        type: 'jetbrains';
+        port?: number;
       };
 }
 
@@ -81,6 +85,8 @@ export function injectTraceIdJSX(
         uri = `${opener.url}/blob/${
           opener.branch ?? 'main'
         }/${relativeFilepath}#L${line}`;
+      } else if (opener.type === 'jetbrains') {
+        uri = `http://localhost:${opener.port ?? 63342}/api/file/${uri}`;
       }
 
       attrs.push(jsxAttribute(jsxIdentifier(ATTR_ID), stringLiteral(uri)));
