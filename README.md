@@ -17,3 +17,10 @@ This repo is manager with `rush`
 ```bash
 rush update
 ```
+
+#### Publish
+
+```bash
+rush version --bump
+rush publish --include-all --publish --npm-auth-token <authToken>
+```

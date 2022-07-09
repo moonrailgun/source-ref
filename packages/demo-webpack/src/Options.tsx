@@ -17,6 +17,9 @@ export const Options: React.FC = React.memo(() => {
     url: string; // full url(for example: https://github.com/moonrailgun/source-ref)
     branch?: string; // branch name
     cwd?: string; // project root path, default is process.cwd()
+  } | {
+    type: 'jetbrains';
+    port?: number; // jetbrains local server port(if you modify it)
   };
 }`}</code>
           </pre>
