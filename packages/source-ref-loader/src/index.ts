@@ -12,7 +12,8 @@ async function loader(
 ): Promise<void> {
   const done = this.async();
 
-  const { available = true, opener = { type: 'vscode' } } = this.getOptions();
+  const { available = true, opener = { type: 'vscode' } } =
+    this.getOptions?.() ?? {}; // webpack4 has no `this.getOptions`, shim it
   if (!available) {
     // skip if not
     done(null, source);
