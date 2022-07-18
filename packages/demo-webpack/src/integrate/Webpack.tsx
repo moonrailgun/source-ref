@@ -25,7 +25,6 @@ export const Webpack: React.FC = React.memo(() => {
       options: {
         loader: 'tsx',
         target: 'es2015',
-        tsconfigRaw: require('./tsconfig.json'),
       },
     },
     {
