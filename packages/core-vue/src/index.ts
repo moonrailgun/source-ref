@@ -34,40 +34,45 @@ export function injectTraceIdVue(
 ) {
   const { filepath, opener } = options;
 
-  const ast = parseSfc(vue);
-  traverse(ast, {
-    pre: (node) => {
-      if (isElementNode(node)) {
-        const line = node.loc.start.line;
-        const column = node.loc.start.column;
-        let uri = `${filepath}:${line}:${column}`;
+  try {
+    const ast = parseSfc(vue);
+    traverse(ast, {
+      pre: (node) => {
+        if (isElementNode(node)) {
+          const line = node.loc.start.line;
+          const column = node.loc.start.column;
+          let uri = `${filepath}:${line}:${column}`;
 
-        if (opener.type === 'github') {
-          const relativeFilepath = pathUtils.relative(
-            opener.cwd ?? process.cwd(),
-            filepath
-          );
-          uri = `${opener.url}/blob/${
-            opener.branch ?? 'main'
-          }/${relativeFilepath}#L${line}`;
-        } else if (opener.type === 'jetbrains') {
-          uri = `http://localhost:${opener.port ?? 63342}/api/file/${uri}`;
+          if (opener.type === 'github') {
+            const relativeFilepath = pathUtils.relative(
+              opener.cwd ?? process.cwd(),
+              filepath
+            );
+            uri = `${opener.url}/blob/${
+              opener.branch ?? 'main'
+            }/${relativeFilepath}#L${line}`;
+          } else if (opener.type === 'jetbrains') {
+            uri = `http://localhost:${opener.port ?? 63342}/api/file/${uri}`;
+          }
+
+          node.props.push({
+            type: NodeTypes.ATTRIBUTE,
+            name: ATTR_ID,
+            value: {
+              type: NodeTypes.TEXT,
+              content: uri,
+            },
+          } as AttributeNode);
         }
 
-        node.props.push({
-          type: NodeTypes.ATTRIBUTE,
-          name: ATTR_ID,
-          value: {
-            type: NodeTypes.TEXT,
-            content: uri,
-          },
-        } as AttributeNode);
-      }
+        return true;
+      },
+    });
 
-      return true;
-    },
-  });
-
-  const code = generate(ast);
-  return { code };
+    const code = generate(ast);
+    return { code };
+  } catch (err) {
+    console.error(err);
+    return { code: vue };
+  }
 }

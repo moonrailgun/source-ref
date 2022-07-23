@@ -39,61 +39,66 @@ export function injectTraceIdJSX(
 ) {
   const { filepath, opener } = options;
 
-  const ast = parse(jsx, {
-    sourceType: 'module',
-    plugins: ['jsx', 'typescript'],
-  });
+  try {
+    const ast = parse(jsx, {
+      sourceType: 'module',
+      plugins: ['jsx', 'typescript'],
+    });
 
-  traverse(ast, {
-    JSXOpeningElement(path) {
-      const location = path.node.loc;
-      if (!location) {
-        return;
-      }
+    traverse(ast, {
+      JSXOpeningElement(path) {
+        const location = path.node.loc;
+        if (!location) {
+          return;
+        }
 
-      if (Array.isArray(location)) {
-        return;
-      }
+        if (Array.isArray(location)) {
+          return;
+        }
 
-      const name = path.node.name;
-      if (isJSXIdentifier(name) && name.name === 'Fragment') {
-        return;
-      }
-      if (isJSXMemberExpression(name) && name.property.name === 'Fragment') {
-        return;
-      }
+        const name = path.node.name;
+        if (isJSXIdentifier(name) && name.name === 'Fragment') {
+          return;
+        }
+        if (isJSXMemberExpression(name) && name.property.name === 'Fragment') {
+          return;
+        }
 
-      const line = location.start.line;
-      const col = location.start.column;
+        const line = location.start.line;
+        const col = location.start.column;
 
-      const attrs = path.node.attributes;
+        const attrs = path.node.attributes;
 
-      if (
-        attrs.some(
-          (attr) => attr.type === 'JSXAttribute' && attr.name.name === ATTR_ID
-        )
-      ) {
-        return;
-      }
+        if (
+          attrs.some(
+            (attr) => attr.type === 'JSXAttribute' && attr.name.name === ATTR_ID
+          )
+        ) {
+          return;
+        }
 
-      let uri = `${filepath}:${line}:${col}`;
-      if (opener.type === 'github') {
-        const relativeFilepath = pathUtils.relative(
-          opener.cwd ?? process.cwd(),
-          filepath
-        );
-        uri = `${opener.url}/blob/${
-          opener.branch ?? 'main'
-        }/${relativeFilepath}#L${line}`;
-      } else if (opener.type === 'jetbrains') {
-        uri = `http://localhost:${opener.port ?? 63342}/api/file/${uri}`;
-      }
+        let uri = `${filepath}:${line}:${col}`;
+        if (opener.type === 'github') {
+          const relativeFilepath = pathUtils.relative(
+            opener.cwd ?? process.cwd(),
+            filepath
+          );
+          uri = `${opener.url}/blob/${
+            opener.branch ?? 'main'
+          }/${relativeFilepath}#L${line}`;
+        } else if (opener.type === 'jetbrains') {
+          uri = `http://localhost:${opener.port ?? 63342}/api/file/${uri}`;
+        }
 
-      attrs.push(jsxAttribute(jsxIdentifier(ATTR_ID), stringLiteral(uri)));
-    },
-  });
+        attrs.push(jsxAttribute(jsxIdentifier(ATTR_ID), stringLiteral(uri)));
+      },
+    });
 
-  const res = generate(ast);
+    const res = generate(ast);
 
-  return { code: res.code, map: res.map };
+    return { code: res.code, map: res.map };
+  } catch (err) {
+    console.error(err);
+    return { code: jsx };
+  }
 }
