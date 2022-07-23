@@ -157,7 +157,6 @@ export class Inspector {
         ${isBottomHalf ? 'top' : 'bottom'}: 0;
         left: 0;
         z-index: 9999;
-        opacity: 0.6;
         border-radius: ${isBottomHalf ? '0 0 10px 0' : '0 10px 0 0'};
         box-shadow: 0px 0 4px 0px;
         max-width: 90vw;
