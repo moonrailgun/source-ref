@@ -11,10 +11,18 @@ export default function sourceRef(options?: Options): Plugin {
     transform(code, id) {
       const filepath = id;
 
-      return injectTraceIdJSX(code, {
-        filepath,
-        opener: options?.opener ?? { type: 'vscode' },
-      });
+      if (
+        ['.js', '.jsx', '.ts', '.tsx', '.mjs'].some((ext) =>
+          filepath.endsWith(ext)
+        )
+      ) {
+        return injectTraceIdJSX(code, {
+          filepath,
+          opener: options?.opener ?? { type: 'vscode' },
+        });
+      } else {
+        return { code };
+      }
     },
   };
 }

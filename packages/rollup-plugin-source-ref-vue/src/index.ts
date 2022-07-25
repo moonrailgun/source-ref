@@ -19,7 +19,7 @@ export default function sourceRef(options?: Options): Plugin {
         return output;
       }
 
-      return code;
+      return { code };
     },
   };
 }
