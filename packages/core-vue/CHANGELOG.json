@@ -2,6 +2,12 @@
   "name": "source-ref-core-vue",
   "entries": [
     {
+      "version": "1.0.6",
+      "tag": "source-ref-core-vue_v1.0.6",
+      "date": "Mon, 25 Jul 2022 08:16:05 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.0.5",
       "tag": "source-ref-core-vue_v1.0.5",
       "date": "Sun, 10 Jul 2022 07:56:15 GMT",

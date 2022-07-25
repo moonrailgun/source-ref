@@ -17,7 +17,7 @@
     "@types/react-dom": "^18.0.5",
     "esbuild-loader": "^2.19.0",
     "html-webpack-plugin": "^5.5.0",
-    "source-ref-loader": "workspace:^1.0.5",
+    "source-ref-loader": "workspace:^1.0.6",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3",
@@ -27,6 +27,6 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "source-ref-runtime": "workspace:^1.0.5"
+    "source-ref-runtime": "workspace:^1.0.6"
   }
 }

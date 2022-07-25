@@ -1,6 +1,6 @@
 {
   "name": "source-ref-loader",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "lib/index.js",
   "files": [
@@ -27,6 +27,6 @@
     "webpack-test-utils": "^1.1.0"
   },
   "dependencies": {
-    "source-ref-core": "workspace:^1.0.5"
+    "source-ref-core": "workspace:^1.0.6"
   }
 }
