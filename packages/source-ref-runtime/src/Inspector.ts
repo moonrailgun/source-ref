@@ -56,10 +56,12 @@ export class Inspector {
       document.body.appendChild(this.focusBlock);
     }
 
-    this.focusBlock.style.height = target.offsetHeight + 'px';
-    this.focusBlock.style.width = target.offsetWidth + 'px';
-    this.focusBlock.style.left = target.offsetLeft + 'px';
-    this.focusBlock.style.top = target.offsetTop + 'px';
+    const rect = target.getBoundingClientRect();
+
+    this.focusBlock.style.height = rect.height + 'px';
+    this.focusBlock.style.width = rect.width + 'px';
+    this.focusBlock.style.left = rect.left + 'px';
+    this.focusBlock.style.top = rect.top + 'px';
   };
 
   close = () => {
@@ -179,7 +181,7 @@ export class Inspector {
             const uri = srToURI(sr);
             return `<a href="${uri}" target="_blank" style="
               display: block;
-              margin: 6px 0;
+              ling-height: 1.5em;
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;

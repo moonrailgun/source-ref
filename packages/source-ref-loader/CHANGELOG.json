@@ -2,6 +2,12 @@
   "name": "source-ref-loader",
   "entries": [
     {
+      "version": "1.0.7",
+      "tag": "source-ref-loader_v1.0.7",
+      "date": "Sat, 30 Jul 2022 06:29:03 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.0.6",
       "tag": "source-ref-loader_v1.0.6",
       "date": "Mon, 25 Jul 2022 08:16:05 GMT",
