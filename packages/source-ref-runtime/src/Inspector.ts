@@ -6,7 +6,7 @@ const closeClassName = '__source-ref-close';
 
 export class Inspector {
   containerId = '__source-ref-panel';
-  focusBlock = null;
+  focusBlock: HTMLDivElement | null = null;
   path: { sr: string; node: Element }[] = [];
 
   constructor(public target: EventTarget) {
@@ -52,6 +52,7 @@ export class Inspector {
       this.focusBlock.className = selectedMaskClassName;
       this.focusBlock.style.position = 'absolute';
       this.focusBlock.style.backgroundColor = 'rgba(134, 185, 242, 0.5)';
+      this.focusBlock.style.zIndex = '9998';
 
       document.body.appendChild(this.focusBlock);
     }
