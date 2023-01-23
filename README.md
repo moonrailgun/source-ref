@@ -1,5 +1,6 @@
 # source-ref
-A tool for source code ref
+
+A tool for source code ref, inspired by [@babel/plugin-transform-react-jsx-source](https://github.com/babel/babel/tree/main/packages/babel-plugin-transform-react-jsx-source)
 
 More detail can checkout those page: [http://moonrailgun.com/posts/da6d1d53/](http://moonrailgun.com/posts/da6d1d53/)
 
